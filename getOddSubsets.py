@@ -71,20 +71,30 @@ else:
     listOfSubsets = []
 
     j = 0
-    f = open('oddSubSetsWithFormat.txt','w')
-    fn = open('oddSubSets.txt','w')
 
     for size in oddSizeListForSets:
-        localSet = findSubsets(theSetOfNumbers,size)
-        for i in localSet:
-            j += 1
-            setOnString = " ".join(map(str,i))
-            setForInput = "set Sub[%d] := %s;" % (j,setOnString)
-            fn.write(setOnString+"\n")
-            f.write(setForInput+"\n")
+
+        nameOfFileWithFormat = "oddSubSetsWithFormat_%d_%d.txt" % (number,size)
+        nameOfFileWithoutFormat = "oddSubSets_%d_%d.txt" % (number,size)
+
+
+        try:
+           with open(nameOfFileWithFormat) as f: pass
+        except IOError as e:
+            
+            f = open(nameOfFileWithFormat,'w')
+            fn = open(nameOfFileWithoutFormat,'w')
+
+            localSet = findSubsets(theSetOfNumbers,size)
+            for i in localSet:
+                j += 1
+                setOnString = " ".join(map(str,i))
+                setForInput = "set Sub[%d] := %s;" % (j,setOnString)
+                fn.write(setOnString+"\n")
+                f.write(setForInput+"\n")
     
-    f.close()
-    fn.close()
+            f.close()
+            fn.close()
 
     elapsed_time = time.time() - start_time
     print elapsed_time
